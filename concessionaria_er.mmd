@@ -1,0 +1,91 @@
+erDiagram
+    CLIENTE ||--o{ VENDA : realiza
+    FUNCIONARIO ||--o{ VENDA : atende
+    VENDA ||--|{ ITEM_VENDA : contem
+    VEICULO ||--o| ITEM_VENDA : "e vendido em"
+    VENDA ||--o| FINANCIAMENTO : possui
+    VENDA ||--o{ PAGAMENTO : "e quitada por"
+    FORNECEDOR ||--o{ PECA : fornece
+    FORNECEDOR |o--o{ VEICULO : fornece
+    PECA ||--|| ESTOQUE_PECA : "tem saldo em"
+    CLIENTE ||--o{ ORDEM_SERVICO : solicita
+    FUNCIONARIO ||--o{ ORDEM_SERVICO : executa
+    ORDEM_SERVICO ||--|{ ITEM_OS : contem
+    PECA |o--o{ ITEM_OS : "e usada em"
+
+    CLIENTE {
+        int id_cliente PK
+        string nome
+        string cpf
+        string telefone
+        string email
+    }
+    FUNCIONARIO {
+        int id_funcionario PK
+        string nome
+        string cpf
+        string cargo
+        string setor
+    }
+    FORNECEDOR {
+        int id_fornecedor PK
+        string razao_social
+        string cnpj
+    }
+    VEICULO {
+        int id_veiculo PK
+        string chassi
+        string modelo
+        string condicao
+        decimal preco_venda
+        string situacao
+        int id_fornecedor FK
+    }
+    VENDA {
+        int id_venda PK
+        date data_venda
+        decimal valor_total
+        int id_cliente FK
+        int id_funcionario FK
+    }
+    ITEM_VENDA {
+        int id_venda PK
+        int id_veiculo PK
+        decimal valor_negociado
+    }
+    FINANCIAMENTO {
+        int id_financiamento PK
+        int id_venda FK
+        string instituicao
+        decimal valor_financiado
+    }
+    PAGAMENTO {
+        int id_pagamento PK
+        int id_venda FK
+        int numero_parcela
+        string status
+    }
+    PECA {
+        int id_peca PK
+        string codigo
+        string descricao
+        int id_fornecedor FK
+    }
+    ESTOQUE_PECA {
+        int id_peca PK
+        int quantidade
+        int estoque_minimo
+    }
+    ORDEM_SERVICO {
+        int id_os PK
+        string status
+        string placa
+        int id_cliente FK
+        int id_funcionario FK
+    }
+    ITEM_OS {
+        int id_item_os PK
+        int id_os FK
+        int id_peca FK
+        int quantidade
+    }
